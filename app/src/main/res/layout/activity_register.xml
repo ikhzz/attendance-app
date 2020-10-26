@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1F669F"
-    tools:context=".MainActivity">
+    tools:context=".Register">
 
     <TextView
         android:id="@+id/title"
@@ -26,7 +26,7 @@
         android:id="@+id/logEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="@string/email"
         android:importantForAutofill="no"
@@ -57,32 +57,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:background="@drawable/btnone"
-        android:text="@string/login"
+        android:text="@string/register"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logPass" />
 
     <TextView
-        android:id="@+id/moveReg"
-        android:layout_width="158dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:onClick="moveReg"
-        android:text="@string/temp_register"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLog" />
-
-    <TextView
         android:id="@+id/textView"
-        android:layout_width="152dp"
-        android:layout_height="38dp"
+        android:layout_width="171dp"
+        android:layout_height="42dp"
         android:layout_marginTop="32dp"
         android:gravity="center"
-        android:text="@string/form_login"
+        android:text="@string/form_register"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
