@@ -8,4 +8,8 @@
     <string name="temp_register">Daftar sementara</string>
     <string name="form_login">Halaman Login</string>
     <string name="form_register">Halaman Daftar Pegawai</string>
+    <string name="title_activity_admin">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
