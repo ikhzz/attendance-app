@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 class Register : AppCompatActivity() {
@@ -36,9 +35,8 @@ class Register : AppCompatActivity() {
 //                    task ->
 //                    if (task.isSuccessful) {
 //                        Toast.makeText(this, email + " Telah teregister", Toast.LENGTH_LONG).show()
-                        val intent = Intent(this, Admin::class.java)
-                        startActivity(intent)
-                        //finish()
+                        startActivity(Intent(this, AdminHome::class.java)); finish()
+
 //                    } else {
 //                        Toast.makeText(this, "$email gagal teregister", Toast.LENGTH_LONG).show()
 //                    }

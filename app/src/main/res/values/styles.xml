@@ -6,24 +6,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="secTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="SecTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    <style name="thirdTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    <style name="CustomActionBarStyle" parent="android:style/Widget.Holo.ActionBar">
-        <item name="android:titleTextStyle">@style/NoTitleText</item>
-        <item name="android:subtitleTextStyle">@style/NoTitleText</item>
-    </style>
-
-    <style name="NoTitleText">
-        <item name="android:textSize">0sp</item>
-        <item name="android:textColor">#00000000</item>
     </style>
 
 </resources>

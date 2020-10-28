@@ -3,8 +3,10 @@
     <string name="title">Absensi Pegawai BKPSDMD</string>
     <string name="email">Email pegawai</string>
     <string name="password">Password pegawai</string>
+    <string name="name">Nama pegawai</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Daftarkan</string>
+    <string name="logout">Keluar</string>
     <string name="temp_register">Daftar sementara</string>
     <string name="form_login">Halaman Login</string>
     <string name="form_register">Halaman Daftar Pegawai</string>
@@ -12,4 +14,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="admin">Halaman Admin</string>
+    <string name="user">Pengguna : </string>
 </resources>

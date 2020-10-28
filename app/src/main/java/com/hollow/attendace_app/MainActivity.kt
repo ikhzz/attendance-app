@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun moveReg(view: View) {
-        val intent = Intent(this, Register::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, AdminHome::class.java))
     }
 }
