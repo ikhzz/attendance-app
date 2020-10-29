@@ -8,8 +8,6 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AdminDash : AppCompatActivity() {
@@ -21,6 +19,10 @@ class AdminDash : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_dash)
 
+        val emailView : EditText = findViewById(R.id.email)
+        val passView : EditText = findViewById(R.id.pass)
+        val nameView : EditText = findViewById(R.id.name)
+        val button : Button = findViewById(R.id.btnreg)
         val bottomNavigation : BottomNavigationView = findViewById(R.id.Admin_navigation)
 
         bottomNavigation.selectedItemId = R.id.dashboard
@@ -35,11 +37,6 @@ class AdminDash : AppCompatActivity() {
             }
             false
         }
-
-        val emailView : EditText = findViewById(R.id.email)
-        val passView : EditText = findViewById(R.id.pass)
-        val nameView : EditText = findViewById(R.id.name)
-        val button : Button = findViewById(R.id.btnreg)
 
         fStore = FirebaseFirestore.getInstance()
         fAuth = FirebaseAuth.getInstance()

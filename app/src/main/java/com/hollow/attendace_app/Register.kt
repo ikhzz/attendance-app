@@ -3,7 +3,6 @@ package com.hollow.attendace_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +21,7 @@ class Register : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        button.setOnClickListener(View.OnClickListener {
+        button.setOnClickListener {
             val email: String = emailView.text.toString().trim()
             val pass: String = passView.text.toString().trim()
 
@@ -42,6 +41,6 @@ class Register : AppCompatActivity() {
 //                    }
 //                }
             }
-        })
+        }
     }
 }

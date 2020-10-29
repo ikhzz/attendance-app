@@ -3,25 +3,25 @@
 
     <item
         android:id="@+id/home"
-        android:title="Home"
+        android:title="@string/title_home"
         android:icon="@drawable/ic_admin_home"
         />
 
     <item
         android:id="@+id/dashboard"
-        android:title="Dashboard"
+        android:title="@string/title_dashboard"
         android:icon="@drawable/ic_admin_dash"
         />
 
     <item
         android:id="@+id/about"
-        android:title="About"
+        android:title="@string/title_about"
         android:icon="@drawable/ic_admin_about"
         />
 
     <item
         android:id="@+id/write"
-        android:title="Write"
+        android:title="@string/title_write"
         android:icon="@drawable/ic_write"
         />
 

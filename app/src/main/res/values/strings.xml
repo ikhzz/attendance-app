@@ -13,7 +13,8 @@
     <string name="title_activity_admin">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_about">About</string>
+    <string name="title_write">Write</string>
     <string name="admin">Halaman Admin</string>
     <string name="user">Pengguna : </string>
 </resources>
