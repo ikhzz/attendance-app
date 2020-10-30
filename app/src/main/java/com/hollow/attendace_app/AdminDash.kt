@@ -8,12 +8,13 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AdminDash : AppCompatActivity() {
 
     private lateinit var fAuth: FirebaseAuth
-    private lateinit var fStore : FirebaseFirestore
+    private lateinit var fStore : FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class AdminDash : AppCompatActivity() {
             false
         }
 
-        fStore = FirebaseFirestore.getInstance()
+        fStore = FirebaseDatabase.getInstance()
         fAuth = FirebaseAuth.getInstance()
 
         button.setOnClickListener {
@@ -54,18 +55,17 @@ class AdminDash : AppCompatActivity() {
                 fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener {
                     task ->
                     if (task.isSuccessful) {
-                        val user = fAuth.currentUser
-                        Toast.makeText(this, "$email Telah teregister", Toast.LENGTH_LONG).show()
-                        val df  = fStore.collection("Profile").document(user!!.uid)
-                        val data = hashMapOf<String, String>()
-                        if (name.isEmpty()) {name = email}
-                        data["Username"] = name
-                        data["email"] = email
-                        data["admin"] = "admins"
+                        val user = fAuth.uid.toString()
+                        Toast.makeText(this, "$email Telah terdaftar", Toast.LENGTH_LONG).show()
+                        val ref = fStore.getReference("profile")
+                        val uData = mapOf<String, String>(
+                            "name" to name,
+                            "level" to "admin",
+                        )
+                        ref.child(user).setValue(uData)
 
-                        df.set(data)
                     } else {
-                        Toast.makeText(this, "$email gagal teregister", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "$email gagal terdaftar", Toast.LENGTH_LONG).show()
                     }
                 }
             }

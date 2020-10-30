@@ -3,14 +3,27 @@ package com.hollow.attendace_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.FirebaseError
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class AdminHome : AppCompatActivity() {
+
+    private lateinit var fStore : FirebaseDatabase
+    private lateinit var fAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_home)
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.Admin_navigation)
+        val view: TextView = findViewById(R.id.user)
 
         bottomNavigation.selectedItemId = R.id.home
 
@@ -24,5 +37,29 @@ class AdminHome : AppCompatActivity() {
             }
             false
         }
+
+        fStore = FirebaseDatabase.getInstance()
+        fAuth = FirebaseAuth.getInstance()
+        val a = fAuth.uid.toString()
+
+        val ref = fStore.getReference("profile").child(a)
+
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                println(error.message)
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val children = snapshot.child("level")
+                val childd = snapshot.children
+//                childd.forEach {
+//                    Toast.makeText(this@AdminHome,  "${it.key} dan ${it.value}", Toast.LENGTH_LONG).show()
+//                }
+                //val mapps = listOf<Any>(childd.forEach{it.key}).toString()
+                //view.text = mapps
+
+            }
+        })
     }
 }

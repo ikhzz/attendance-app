@@ -61,7 +61,7 @@ class AdminAbout : AppCompatActivity() {
             val hours = hour.text.toString().trim()
             val users = user.text.toString().trim()
             val datas = data.text.toString().trim()
-            var hType : String = "morning"
+            var hType = "morning"
             if(hours.toInt() in 10..12) {
                 hType = "noon"
             } else if (hours.toInt() in 13..16) {
