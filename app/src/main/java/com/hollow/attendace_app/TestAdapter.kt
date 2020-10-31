@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.recview.view.*
 
-class TestAdapter(private val data: List<String>) : RecyclerView.Adapter<TestAdapter.ViewHolder>() {
+class TestAdapter(private val data: Array<Array<String>>) : RecyclerView.Adapter<TestAdapter.ViewHolder>() {
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
     }
@@ -18,7 +18,7 @@ class TestAdapter(private val data: List<String>) : RecyclerView.Adapter<TestAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val datas = data[position]
-        holder.itemView.day.text = datas
+        holder.itemView.day.text = datas[0]
     }
 
     override fun getItemCount(): Int {

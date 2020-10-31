@@ -39,13 +39,16 @@ class AdminTest : AppCompatActivity() {
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val data = snapshot.children
-                var list: ArrayList<String> = ArrayList()
+                var list: Array<Array<String>> = arrayOf()
 
                 for (i in data) {
+                    var list2 : Array<String> = arrayOf<String>()
                     for(j in i.children) {
-                        list.add(j.value.toString())
+                        list2 += j.value.toString()
                     }
+                    list += list2
                 }
+
 //                data.forEach{list.add(it.value.toString())}
                 rec.apply {
                     layoutManager = LinearLayoutManager(this@AdminTest)

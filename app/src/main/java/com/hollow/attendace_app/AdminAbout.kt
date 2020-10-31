@@ -5,10 +5,16 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_admin_about.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AdminAbout : AppCompatActivity() {
@@ -21,13 +27,6 @@ class AdminAbout : AppCompatActivity() {
         setContentView(R.layout.activity_admin_about)
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.Admin_navigation)
-        val test1: TextView = findViewById(R.id.test1)
-        val test2: TextView = findViewById(R.id.test2)
-        val date: TextView = findViewById(R.id.date)
-        val hour: TextView = findViewById(R.id.hour)
-        val user: TextView = findViewById(R.id.userid)
-        val data: TextView = findViewById(R.id.data)
-        val btn: Button = findViewById(R.id.button)
 
         bottomNavigation.selectedItemId = R.id.about
         fStore = FirebaseDatabase.getInstance()
@@ -51,34 +50,80 @@ class AdminAbout : AppCompatActivity() {
             false
         }
 
+        val ref = fStore.getReference("presence")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val refs = snapshot.children
+                var list: Array<Array<String>> = arrayOf()
+
+
+
+                var list6 = arrayOf(
+                    arrayOf("td","td"), arrayOf("td","td","td")
+                )
+                for (i in refs) {
+                    for(j in i.children){
+                        var list2 : Array<Array<String>> = arrayOf()
+                        var list3: Array<String> = arrayOf()
+                        list3 += i.key.toString()
+                        list3 += j.key.toString()
+                        var list4: Array<String> = arrayOf()
+                        for (k in j.children) {
+
+                            for (l in k.children) {
+                                list4 += l.value.toString()
+                                //["data"]
+                            }
+
+                        }
+
+                        list2 += list3
+                        //list2 += list4
+                        list += list2
+                    }
+
+                }
+                //[[tanggal,morning,fajar,nowhere],
+                recFull.apply {
+                    layoutManager = LinearLayoutManager(this@AdminAbout)
+                    adapter = HistoryAdapter(list)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
+
 //        val calendar = Calendar.getInstance().get(Calendar.HOUR)
 //        val date2 = SimpleDateFormat("dd-MM-yyyy",Locale("english")).format(Calendar.getInstance().time)
 //        test1.text = date2.toString()
 //        test2.text = calendar.toString()
-        btn.setOnClickListener {
-
-            val dates = date.text.toString().trim()
-            val hours = hour.text.toString().trim()
-            val users = user.text.toString().trim()
-            val datas = data.text.toString().trim()
-            var hType = "morning"
-            if(hours.toInt() in 10..12) {
-                hType = "noon"
-            } else if (hours.toInt() in 13..16) {
-                hType = "afternoon"
-            }
-//            data class User(
-//                var username: String? = "",
-//                var email: String? = ""
-//            )
-//            val user = User("ikhz", "user")
-            val uData = mapOf<String,String>(
-                "Name" to "ikhz",
-                "gps" to "nowhere",
-                "time" to "whenever")
-            val ref = fStore.getReference("presence")
-            ref.child(dates).child(hType).child(users).setValue(uData)
-        }
+//        btn.setOnClickListener {
+//
+//            val dates = date.text.toString().trim()
+//            val hours = hour.text.toString().trim()
+//            val users = user.text.toString().trim()
+//            val datas = data.text.toString().trim()
+//            var hType = "morning"
+//            if(hours.toInt() in 10..12) {
+//                hType = "noon"
+//            } else if (hours.toInt() in 13..16) {
+//                hType = "afternoon"
+//            }
+////            data class User(
+////                var username: String? = "",
+////                var email: String? = ""
+////            )
+////            val user = User("ikhz", "user")
+//            val uData = mapOf<String,String>(
+//                "Name" to "ikhz",
+//                "gps" to "nowhere",
+//                "time" to "whenever")
+//            val ref = fStore.getReference("presence")
+//            ref.child(dates).child(hType).child(users).setValue(uData)
+//        }
 
     }
 }
