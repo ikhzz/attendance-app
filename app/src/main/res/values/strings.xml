@@ -17,4 +17,6 @@
     <string name="title_write">Write</string>
     <string name="admin">Halaman Admin</string>
     <string name="user">Pengguna : </string>
+    <string name="tanggal">Tanggal :</string>
+    <string name="presencePart">Bagian Absen :</string>
 </resources>

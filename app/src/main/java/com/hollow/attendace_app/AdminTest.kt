@@ -48,8 +48,6 @@ class AdminTest : AppCompatActivity() {
                     }
                     list += list2
                 }
-
-//                data.forEach{list.add(it.value.toString())}
                 rec.apply {
                     layoutManager = LinearLayoutManager(this@AdminTest)
                     adapter = TestAdapter(list)

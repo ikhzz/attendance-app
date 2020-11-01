@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_admin_about.*
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,6 +33,8 @@ class AdminAbout : AppCompatActivity() {
         bottomNavigation.selectedItemId = R.id.about
         fStore = FirebaseDatabase.getInstance()
         mAuth = FirebaseAuth.getInstance()
+        val decor = DividerItemDecoration(this,DividerItemDecoration.VERTICAL)
+        decor.setDrawable(resources.getDrawable(R.drawable.divider))
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
@@ -54,39 +58,30 @@ class AdminAbout : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val refs = snapshot.children
-                var list: Array<Array<String>> = arrayOf()
+                var listData: ArrayList<ArrayList<String>> = arrayListOf()
 
-
-
-                var list6 = arrayOf(
-                    arrayOf("td","td"), arrayOf("td","td","td")
-                )
                 for (i in refs) {
                     for(j in i.children){
-                        var list2 : Array<Array<String>> = arrayOf()
-                        var list3: Array<String> = arrayOf()
-                        list3 += i.key.toString()
-                        list3 += j.key.toString()
-                        var list4: Array<String> = arrayOf()
-                        for (k in j.children) {
-
-                            for (l in k.children) {
-                                list4 += l.value.toString()
-                                //["data"]
-                            }
-
-                        }
-
-                        list2 += list3
-                        //list2 += list4
-                        list += list2
+                        var listGroup : ArrayList<String> = arrayListOf()
+                        listGroup.add( i.key.toString())
+                        listGroup.add(j.key.toString())
+//                        var dataGroups: MutableList<ArrayList<String>> = arrayListOf()
+//                        for (k in j.children) {
+//                            var dataGroup: ArrayList<String> = arrayListOf()
+//                            for (l in k.children) {
+//                                dataGroup.add(l.value.toString())
+//                            }
+//                            dataGroups.add(dataGroup)
+//                        }
+                        listData.add(listGroup)
                     }
 
                 }
                 //[[tanggal,morning,fajar,nowhere],
+                recFull.addItemDecoration(decor)
                 recFull.apply {
                     layoutManager = LinearLayoutManager(this@AdminAbout)
-                    adapter = HistoryAdapter(list)
+                    adapter = HistoryAdapter(listData)
                 }
             }
 
