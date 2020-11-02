@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
+import com.hollow.attendace_app.admin.AdminHome
 
 class Register : AppCompatActivity() {
 

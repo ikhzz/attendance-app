@@ -1,9 +1,7 @@
-package com.hollow.attendace_app
+package com.hollow.attendace_app.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +11,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.hollow.attendace_app.*
 import kotlinx.android.synthetic.main.activity_admin_about.*
-import java.io.Serializable
-import java.util.*
 import kotlin.collections.ArrayList
 
 

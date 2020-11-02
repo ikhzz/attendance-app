@@ -1,4 +1,4 @@
-package com.hollow.attendace_app
+package com.hollow.attendace_app.admin
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,7 @@ import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FirebaseFirestore
+import com.hollow.attendace_app.R
 
 class AdminDash : AppCompatActivity() {
 

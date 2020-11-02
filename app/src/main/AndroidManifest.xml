@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DetailHistory"></activity>
-        <activity android:name=".AdminTest" />
-        <activity android:name=".AdminAbout" />
-        <activity android:name=".AdminDash" />
-        <activity android:name=".AdminHome" />
+        <activity android:name=".user.UserHome"></activity>
+        <activity android:name=".admin.DetailHistory" />
+        <activity android:name=".admin.AdminTest" />
+        <activity android:name=".admin.AdminAbout" />
+        <activity android:name=".admin.AdminDash" />
+        <activity android:name=".admin.AdminHome" />
         <activity android:name=".Register" />
         <activity android:name=".MainActivity">
             <intent-filter>

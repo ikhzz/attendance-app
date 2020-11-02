@@ -1,10 +1,11 @@
-package com.hollow.attendace_app
+package com.hollow.attendace_app.admin
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hollow.attendace_app.R
 import kotlinx.android.synthetic.main.recfull.view.*
 
 class HistoryAdapter(private val data: ArrayList<ArrayList<String>>) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {

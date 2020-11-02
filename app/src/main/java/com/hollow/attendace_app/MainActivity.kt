@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.hollow.attendace_app.admin.AdminHome
+import com.hollow.attendace_app.user.UserHome
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,6 +14,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun moveReg(view: View) {
-        startActivity(Intent(this, AdminHome::class.java))
+        startActivity(Intent(this, UserHome::class.java))
     }
 }

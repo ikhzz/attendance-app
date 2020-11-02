@@ -1,9 +1,10 @@
-package com.hollow.attendace_app
+package com.hollow.attendace_app.admin
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hollow.attendace_app.R
 import kotlinx.android.synthetic.main.recview.view.*
 
 class TestAdapter(private val data: Array<Array<String>>) : RecyclerView.Adapter<TestAdapter.ViewHolder>() {

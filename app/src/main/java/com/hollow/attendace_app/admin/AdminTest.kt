@@ -1,4 +1,4 @@
-package com.hollow.attendace_app
+package com.hollow.attendace_app.admin
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +9,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.hollow.attendace_app.R
 import kotlinx.android.synthetic.main.activity_admin_test.*
-import kotlin.collections.ArrayList
 
 class AdminTest : AppCompatActivity() {
 
