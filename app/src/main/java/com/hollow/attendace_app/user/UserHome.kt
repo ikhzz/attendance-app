@@ -20,6 +20,7 @@ class UserHome : AppCompatActivity() {
         val edit = sp.edit()
         edit.putString("image", "adaaaa")
         edit.apply()
+
         //bottomNavigation.selectedItemId = R.id.home
         supportFragmentManager.beginTransaction().replace(R.id.userFragment, HomeFragment()).commit()
         bottomNavigation.setOnNavigationItemSelectedListener{
