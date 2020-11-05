@@ -2,45 +2,40 @@ package com.hollow.attendace_app.user
 
 
 import android.app.Activity.RESULT_OK
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.provider.MediaStore.Images.Media.getBitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import com.hollow.attendace_app.MainActivity
 import com.hollow.attendace_app.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.lang.IllegalArgumentException
-import java.util.*
-import java.util.stream.Stream
 
 
 class HomeFragment: Fragment() {
 
-    private lateinit var fStore : FirebaseDatabase
+    private lateinit var fStore : FirebaseAuth
     private lateinit var imageUri : Uri
-    private lateinit var storageRef: FirebaseStorage
+    private var storageRef: FirebaseStorage = FirebaseStorage.getInstance()
+    private var image : ImageView? = null
+    private var sp: SharedPreferences? = null
+    private var edit: SharedPreferences.Editor? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,43 +49,42 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val image : ImageView? = getView()?.findViewById(R.id.profPic)
-        fStore = FirebaseDatabase.getInstance()
-        storageRef = FirebaseStorage.getInstance()
-        val sp: SharedPreferences? = context?.getSharedPreferences("data", Context.MODE_PRIVATE)
-        val str: String? = sp?.getString("url", "")
+        val btnlogout: Button? = getView()?.findViewById(R.id.logout)
+        image  = getView()?.findViewById(R.id.profPic)
+        fStore = FirebaseAuth.getInstance()
 
-        if(!(str.isNullOrEmpty())) {
-            //Toast.makeText(activity,"tes1",Toast.LENGTH_SHORT).show()
-            try {
-                //Toast.makeText(activity,str,Toast.LENGTH_SHORT).show()
-                val url : Uri = Uri.parse(str)
-                image?.setImageURI(url)
+        sp = context?.getSharedPreferences("data", Context.MODE_PRIVATE)
+        val spUri: String? = sp?.getString("url", "")
 
-            } catch (e : IllegalArgumentException) {
-
+        if(spUri?.length!! < 2) {
+            val path = context?.getExternalFilesDir(null).toString()
+            val file = File(path, "profImage.jpg")
+            val ref = storageRef.reference.child("images/profile/${fStore.uid}")
+            ref.getFile(file).addOnSuccessListener {
+                val uri = Uri.parse(file.absolutePath)
+                image?.setImageURI(uri)
+                toast("berhasil?")
+            }.removeOnFailureListener{
+                toast("gagal")
             }
+            sp = context?.getSharedPreferences("data", Context.MODE_PRIVATE)
+            edit = sp?.edit()
+            edit?.putString("url", file.absolutePath)
+            edit?.apply()
+        } else {
+            try {
+                image?.setImageURI(Uri.parse(spUri))
+            } catch (e : IllegalArgumentException) {}
         }
 
         image?.setOnClickListener{
             setImage()
         }
-
-
-//        val ref = fStore.getReference("profile").child("ikhz")
-//        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                for(i in snapshot.children) {
-//                    if(i.key == "image") {
-//                        //Toast.makeText(activity,i.value.toString(),Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//
-//            }
-//        })
+        btnlogout?.setOnClickListener {
+            fStore.signOut()
+            startActivity(Intent(context,MainActivity::class.java))
+            activity?.finish()
+        }
     }
     private fun setImage() {
         val intent = Intent()
@@ -106,77 +100,44 @@ class HomeFragment: Fragment() {
 
             val input = activity?.contentResolver?.openInputStream(data.data!!)
             val draw = Drawable.createFromStream(input, data.data.toString())
-            var bitmap: Bitmap = (draw as BitmapDrawable).bitmap
+            val bitmap: Bitmap = (draw as BitmapDrawable).bitmap
 
-            saveData(bitmap)
+            val setUri = saveData(bitmap)
 
-            val image: ImageView? = view?.findViewById(R.id.profPic)
-
-            //image?.setImageURI(setUri)
-            //uploadImg()
+            image?.setImageURI(setUri)
+            uploadImg(imageUri)
         }
-//        if(requestCode == 2) {
-//            val sp: SharedPreferences? = context?.getSharedPreferences("data",Context.MODE_PRIVATE)
-//            val str: String? = sp?.getString("url","")
-//            val image : ImageView? = getView()?.findViewById(R.id.profPic)
-//            try {
-//                imageUri = Uri.parse(str)
-//                image?.setImageURI(imageUri)
-//            } catch (e : IllegalArgumentException) {
-//
-//            }
-//        }
     }
-    private fun uploadImg() {
-        val imgName = "tes"
-        val ref: StorageReference = storageRef.reference.child("images/$imgName")
+    private fun uploadImg(data: Uri) {
+        val imgName = fStore.uid
+        val ref = storageRef.reference.child("images/profile/$imgName")
 
-        ref.putFile(imageUri)
-            .addOnSuccessListener { taskSnapshot -> // Get a URL to the uploaded content
-                val downloadUrl = taskSnapshot.uploadSessionUri?.path
-                val a = ref.downloadUrl.continueWith{
-                    tast ->
-                    val b = tast.result
-                    Toast.makeText(activity,b.toString(),Toast.LENGTH_SHORT).show()
-
-                }
+        ref.putFile(data)
+            .addOnSuccessListener { // Get a URL to the uploaded content
+                toast("Foto Profil Telah Di Upload")
             }
             .addOnFailureListener {
-                // Handle unsuccessful uploads
-                // ...
+                toast("Foto Profil Gagal Di Upload")
             }
     }
-    private fun saveData(bitmap: Bitmap) {
-        //activity?.applicationContext.getf
-        var f3 = File(Environment.getExternalStorageState() + "/tes/")
-        f3.mkdir()
-        val path = Environment.getExternalStorageState()
-        val file = File(f3, "tes.jpg")
+    private fun saveData(bitmap: Bitmap): Uri {
+        val path = context?.getExternalFilesDir(null).toString()
+        val file = File(path, "profImage.jpg")
 
         try {
             val stream: OutputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.flush()
             stream.close()
-        } catch (e: IOException) {
-
-        }
-        val sp: SharedPreferences? = context?.getSharedPreferences("data", Context.MODE_PRIVATE)
-        val edit = sp?.edit()
+        } catch (e: IOException) {}
+        sp = context?.getSharedPreferences("data", Context.MODE_PRIVATE)
+        edit = sp?.edit()
         edit?.putString("url", file.absolutePath)
         edit?.apply()
-        toast(file.absolutePath)
-        val image: ImageView? = view?.findViewById(R.id.profPic)
-        image?.setImageURI(Uri.parse(file.absolutePath))
-        //return Uri.parse(file.absolutePath)
+
+        return Uri.parse(file.absolutePath)
     }
     private fun toast(str: String) {
         Toast.makeText(activity,str,Toast.LENGTH_LONG).show()
     }
-//    private fun setProfile() {
-//        val intent = Intent()
-//        intent.type = "Uri"
-//        intent.action = Intent.ACTION_OPEN_DOCUMENT
-//        startActivityForResult(intent, 2)
-//    }
 }
