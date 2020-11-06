@@ -15,12 +15,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.hollow.attendace_app.MainActivity
 import com.hollow.attendace_app.R
+import com.hollow.attendace_app.admin.AdminHome
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -30,10 +36,13 @@ import java.lang.IllegalArgumentException
 
 class HomeFragment: Fragment() {
 
-    private lateinit var fStore : FirebaseAuth
+    private lateinit var fAuth : FirebaseAuth
     private lateinit var imageUri : Uri
-    private var storageRef: FirebaseStorage = FirebaseStorage.getInstance()
+    private var fStore: FirebaseStorage = FirebaseStorage.getInstance()
+    private var fDbs: FirebaseDatabase = FirebaseDatabase.getInstance()
     private var image : ImageView? = null
+    private var email: TextView? = null
+    private var user: TextView? = null
     private var sp: SharedPreferences? = null
     private var edit: SharedPreferences.Editor? = null
 
@@ -51,15 +60,18 @@ class HomeFragment: Fragment() {
 
         val btnlogout: Button? = getView()?.findViewById(R.id.logout)
         image  = getView()?.findViewById(R.id.profPic)
-        fStore = FirebaseAuth.getInstance()
+        email = getView()?.findViewById(R.id.emailval)
+        user = getView()?.findViewById(R.id.userval)
+        fAuth = FirebaseAuth.getInstance()
 
         sp = context?.getSharedPreferences("data", Context.MODE_PRIVATE)
         val spUri: String? = sp?.getString("url", "")
-
+        email?.text = fAuth.currentUser?.email
+        checkUser()
         if(spUri?.length!! < 2) {
             val path = context?.getExternalFilesDir(null).toString()
             val file = File(path, "profImage.jpg")
-            val ref = storageRef.reference.child("images/profile/${fStore.uid}")
+            val ref = fStore.reference.child("images/profile/${fAuth.uid}")
             ref.getFile(file).addOnSuccessListener {
                 val uri = Uri.parse(file.absolutePath)
                 image?.setImageURI(uri)
@@ -81,7 +93,7 @@ class HomeFragment: Fragment() {
             setImage()
         }
         btnlogout?.setOnClickListener {
-            fStore.signOut()
+            fAuth.signOut()
             startActivity(Intent(context,MainActivity::class.java))
             activity?.finish()
         }
@@ -109,8 +121,8 @@ class HomeFragment: Fragment() {
         }
     }
     private fun uploadImg(data: Uri) {
-        val imgName = fStore.uid
-        val ref = storageRef.reference.child("images/profile/$imgName")
+        val imgName = fAuth.uid
+        val ref = fStore.reference.child("images/profile/$imgName")
 
         ref.putFile(data)
             .addOnSuccessListener { // Get a URL to the uploaded content
@@ -139,5 +151,22 @@ class HomeFragment: Fragment() {
     }
     private fun toast(str: String) {
         Toast.makeText(activity,str,Toast.LENGTH_LONG).show()
+    }
+
+    private fun checkUser() {
+        val ref = fDbs.reference.child("profile").child(fAuth.uid.toString())
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val child = snapshot.children
+                for(i in child) {
+                    if (i.key == "name") user?.text = i.value.toString()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                toast("Login Gagal: Database error")
+            }
+        })
     }
 }

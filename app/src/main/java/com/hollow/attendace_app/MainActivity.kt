@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             checkUser()
         }
     }
+
     private fun checkUser() {
         val ref = fDbs.reference.child("profile").child(fAuth.uid.toString())
         ref.addListenerForSingleValueEvent(object : ValueEventListener{

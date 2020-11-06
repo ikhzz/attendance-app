@@ -28,7 +28,7 @@ class UserHome : AppCompatActivity() {
             var fragment: Fragment? = null
             when(item.itemId) {
                 R.id.home -> {fragment = HomeFragment()}
-                R.id.dashboard -> {fragment = HomeFragment()}
+                R.id.dashboard -> {fragment = AttendanceFragment()}
                 R.id.about -> {fragment = HomeFragment()}
             }
             if (fragment != null) {
