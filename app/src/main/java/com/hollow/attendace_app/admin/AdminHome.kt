@@ -3,6 +3,7 @@ package com.hollow.attendace_app.admin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -10,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.hollow.attendace_app.MainActivity
 import com.hollow.attendace_app.R
 
 class AdminHome : AppCompatActivity() {
@@ -23,6 +25,7 @@ class AdminHome : AppCompatActivity() {
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.Admin_navigation)
         val view: TextView = findViewById(R.id.user)
+        val btn: Button = findViewById(R.id.logout)
 
         bottomNavigation.selectedItemId = R.id.home
 
@@ -60,5 +63,10 @@ class AdminHome : AppCompatActivity() {
 
             }
         })
+        btn.setOnClickListener {
+            fAuth.signOut()
+            startActivity(Intent(this@AdminHome, MainActivity::class.java))
+            finish()
+        }
     }
 }

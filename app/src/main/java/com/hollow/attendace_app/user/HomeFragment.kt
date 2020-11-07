@@ -26,7 +26,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.hollow.attendace_app.MainActivity
 import com.hollow.attendace_app.R
-import com.hollow.attendace_app.admin.AdminHome
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -150,7 +149,7 @@ class HomeFragment: Fragment() {
         return Uri.parse(file.absolutePath)
     }
     private fun toast(str: String) {
-        Toast.makeText(activity,str,Toast.LENGTH_LONG).show()
+        Toast.makeText(requireActivity(),str,Toast.LENGTH_LONG).show()
     }
 
     private fun checkUser() {
