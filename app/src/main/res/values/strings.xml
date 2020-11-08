@@ -11,7 +11,7 @@
     <string name="form_login">Halaman Login</string>
     <string name="form_register">Halaman Daftar Pegawai</string>
     <string name="title_activity_admin">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Beranda</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_about">About</string>
     <string name="title_write">Write</string>
@@ -21,4 +21,11 @@
     <string name="presencePart">Bagian Absen :</string>
     <string name="profilepic">Foto Profil</string>
     <string name="users">Pengguna</string>
+    <string name="Presence">Absen</string>
+    <string name="senddata">Kirim Absen</string>
+    <string name="createuser">Daftar User</string>
+    <string name="forgotpassword">Lupa Password</string>
+    <string name="resetpass">Pass Baru</string>
+    <string name="sendpass">Rubah Password</string>
+    <string name="arrive">Jam Absen</string>
 </resources>

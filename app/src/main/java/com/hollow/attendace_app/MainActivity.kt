@@ -68,19 +68,30 @@ class MainActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object : ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                for(i in snapshot.children) {
-                    when(i.key == "level") {
-                        i.value == "admin" -> {
-                            startActivity(Intent(this@MainActivity, AdminHome::class.java)) ;finish()
-                        } i.value == "user" -> {
-                        startActivity(Intent(this@MainActivity, UserHome::class.java)) ;finish()
-                    } else -> {
-                        toast("User Belum Di Daftarkan")
-                    }
+                for (i in snapshot.children) {
+                    if (i.key == "level") {
+                        when (i.value) {
+                            "admin" -> {
+                                startActivity(
+                                    Intent(
+                                        this@MainActivity,
+                                        AdminHome::class.java
+                                    )
+                                ); finish()
+                            }
+                            "user" -> {
+                                startActivity(
+                                    Intent(
+                                        this@MainActivity,
+                                        UserHome::class.java
+                                    )
+                                );finish()
+                            }
+                            else -> toast("User Belum Di Daftarkan")
+                        }
                     }
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 toast("Login Gagal: Database error")
             }

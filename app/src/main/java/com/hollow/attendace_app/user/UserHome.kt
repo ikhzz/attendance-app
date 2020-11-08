@@ -17,11 +17,7 @@ class UserHome : AppCompatActivity() {
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.User_navigation)
         sp = getSharedPreferences("data", MODE_PRIVATE)
-        val edit = sp.edit()
-        edit.putString("image", "adaaaa")
-        edit.apply()
 
-        //bottomNavigation.selectedItemId = R.id.home
         supportFragmentManager.beginTransaction().replace(R.id.userFragment, HomeFragment()).commit()
         bottomNavigation.setOnNavigationItemSelectedListener{
             item ->
@@ -29,7 +25,6 @@ class UserHome : AppCompatActivity() {
             when(item.itemId) {
                 R.id.home -> {fragment = HomeFragment()}
                 R.id.dashboard -> {fragment = AttendanceFragment()}
-                R.id.about -> {fragment = HomeFragment()}
             }
             if (fragment != null) {
                 supportFragmentManager.beginTransaction().replace(R.id.userFragment, fragment).commit()

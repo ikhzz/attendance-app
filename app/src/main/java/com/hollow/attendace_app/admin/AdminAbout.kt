@@ -3,6 +3,7 @@ package com.hollow.attendace_app.admin
 import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,9 +46,6 @@ class AdminAbout : AppCompatActivity() {
                 R.id.home -> {
                     startActivity(Intent(this, AdminHome::class.java)); true;finish()
                 }
-                R.id.write -> {
-                    startActivity(Intent(this, AdminTest::class.java)); true;finish()
-                }
             }
             false
         }
@@ -63,19 +61,10 @@ class AdminAbout : AppCompatActivity() {
                         var listGroup : ArrayList<String> = arrayListOf()
                         listGroup.add( i.key.toString())
                         listGroup.add(j.key.toString())
-//                        var dataGroups: MutableList<ArrayList<String>> = arrayListOf()
-//                        for (k in j.children) {
-//                            var dataGroup: ArrayList<String> = arrayListOf()
-//                            for (l in k.children) {
-//                                dataGroup.add(l.value.toString())
-//                            }
-//                            dataGroups.add(dataGroup)
-//                        }
                         listData.add(listGroup)
                     }
-
                 }
-                //[[tanggal,morning,fajar,nowhere],
+
                 recFull.addItemDecoration(decor)
                 recFull.apply {
                     layoutManager = LinearLayoutManager(this@AdminAbout)
@@ -84,7 +73,7 @@ class AdminAbout : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Toast.makeText(applicationContext,"Gagal Mengambil Data", Toast.LENGTH_SHORT).show()
             }
         })
 

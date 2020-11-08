@@ -19,11 +19,4 @@
         android:icon="@drawable/ic_admin_about"
         />
 
-    <item
-        android:id="@+id/write"
-        android:title="@string/title_write"
-        android:icon="@drawable/ic_write"
-        />
-
-
 </menu>

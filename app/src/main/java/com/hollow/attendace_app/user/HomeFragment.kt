@@ -74,9 +74,7 @@ class HomeFragment: Fragment() {
             ref.getFile(file).addOnSuccessListener {
                 val uri = Uri.parse(file.absolutePath)
                 image?.setImageURI(uri)
-                toast("berhasil?")
             }.removeOnFailureListener{
-                toast("gagal")
             }
             sp = context?.getSharedPreferences("data", Context.MODE_PRIVATE)
             edit = sp?.edit()
@@ -162,7 +160,6 @@ class HomeFragment: Fragment() {
                     if (i.key == "name") user?.text = i.value.toString()
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 toast("Login Gagal: Database error")
             }

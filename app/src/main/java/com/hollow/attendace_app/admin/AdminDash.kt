@@ -3,28 +3,34 @@ package com.hollow.attendace_app.admin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.hollow.attendace_app.R
+import kotlinx.android.synthetic.main.activity_admin_dash.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AdminDash : AppCompatActivity() {
 
     private lateinit var fAuth: FirebaseAuth
-    private lateinit var fStore : FirebaseDatabase
+    private var fDbs : FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val dates = SimpleDateFormat("dd-MM-yyyy", Locale("english")).format(Calendar.getInstance().time)
+    private val hour: Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    private lateinit var day : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_dash)
 
-        val emailView : EditText = findViewById(R.id.email)
-        val passView : EditText = findViewById(R.id.pass)
-        val nameView : EditText = findViewById(R.id.name)
-        val button : Button = findViewById(R.id.btnreg)
         val bottomNavigation : BottomNavigationView = findViewById(R.id.Admin_navigation)
+
+        fAuth = FirebaseAuth.getInstance()
 
         bottomNavigation.selectedItemId = R.id.dashboard
 
@@ -34,41 +40,40 @@ class AdminDash : AppCompatActivity() {
                 R.id.home -> {startActivity(Intent(this, AdminHome::class.java)); true; finish()}
                 R.id.dashboard -> { true; finish()}
                 R.id.about -> {startActivity(Intent(this, AdminAbout::class.java)); true; finish()}
-                R.id.write -> {startActivity(Intent(this, AdminTest::class.java)); true; finish()}
+
             }
             false
         }
-
-        fStore = FirebaseDatabase.getInstance()
-        fAuth = FirebaseAuth.getInstance()
-
-        button.setOnClickListener {
-            val email = emailView.text.toString().trim()
-            val pass: String = passView.text.toString().trim()
-            var name: String = nameView.text.toString().trim()
-
-            if(email.isEmpty()) {
-                emailView.error = "Email tidak boleh kosong"
-            } else if (pass.isEmpty() || pass.length < 6) {
-                passView.error = ("Password tidak boleh kosong dan kurang dari 6")
-            } else {
-                fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener {
-                    task ->
-                    if (task.isSuccessful) {
-                        val user = fAuth.uid.toString()
-                        Toast.makeText(this, "$email Telah terdaftar", Toast.LENGTH_LONG).show()
-                        val ref = fStore.getReference("profile")
-                        val uData = mapOf<String, String>(
-                            "name" to name,
-                            "level" to "admin",
-                        )
-                        ref.child(user).setValue(uData)
-
-                    } else {
-                        Toast.makeText(this, "$email gagal terdaftar", Toast.LENGTH_LONG).show()
+        day = when (hour) {
+            in 6..10 -> "Pagi"
+            in 11..14 -> "Siang"
+            in 15..17 -> "Sore"
+            else -> "Bukan Jam Absen"
+        }
+        val ref = fDbs.getReference("presence").child(dates).child(day)
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val child = snapshot.children
+                val list: ArrayList<ArrayList<String>> = arrayListOf()
+                for(i in child) {
+                    val group: ArrayList<String> = arrayListOf()
+                    group.add(i.key.toString())
+                    for(j in i.children) {
+                        group.add(j.value.toString())
                     }
+                    list.add(group)
+                }
+                rec.apply {
+                    layoutManager = LinearLayoutManager(this@AdminDash)
+                    adapter = RecentAdapter(list)
                 }
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+
     }
 }
