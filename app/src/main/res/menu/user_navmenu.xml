@@ -10,7 +10,6 @@
     <item
         android:id="@+id/dashboard"
         android:title="@string/Presence"
-        android:icon="@drawable/ic_admin_dash"
+        android:icon="@drawable/ic_write"
         />
-
 </menu>

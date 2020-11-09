@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +20,6 @@ class AdminHome : AppCompatActivity() {
     private var fDbs: FirebaseDatabase = FirebaseDatabase.getInstance()
     private lateinit var fAuth: FirebaseAuth
     private lateinit var user: TextView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,16 +43,16 @@ class AdminHome : AppCompatActivity() {
             false
         }
 
-
-
         btn.setOnClickListener {
             fAuth.signOut()
             startActivity(Intent(this@AdminHome, MainActivity::class.java))
             finish()
         }
+
         btnset.setOnClickListener {
             startActivity(Intent(this@AdminHome, UserSetting::class.java))
         }
+
     }
 
     private fun checkUser() {
@@ -67,12 +65,9 @@ class AdminHome : AppCompatActivity() {
                     if (i.key == "name") user.text = i.value.toString()
                 }
             }
-            override fun onCancelled(error: DatabaseError) {
-                toast("Login Gagal: Database error")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
-    private fun toast(str: String) {
-        Toast.makeText(applicationContext,str, Toast.LENGTH_LONG).show()
-    }
+
+
 }

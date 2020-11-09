@@ -1,9 +1,8 @@
 package com.hollow.attendace_app.user
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hollow.attendace_app.R
@@ -28,7 +27,7 @@ class UserHome : AppCompatActivity() {
             }
             if (fragment != null) {
                 supportFragmentManager.beginTransaction().replace(R.id.userFragment, fragment).commit()
-            };
+            }
             true
         }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private val fAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private val fDbs : FirebaseDatabase = FirebaseDatabase.getInstance()
+    private lateinit var pd: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +28,10 @@ class MainActivity : AppCompatActivity() {
         val email = findViewById<TextView>(R.id.email)
         val pass = findViewById<TextView>(R.id.pass)
         val btn = findViewById<Button>(R.id.btn)
+        pd = findViewById(R.id.bar)
 
         btn.setOnClickListener {
+
             val emailval: String = email.text.toString().trim()
             val passval: String = pass.text.toString().trim()
 
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             } else if (passval.isEmpty() || passval.length < 6) {
                 pass.error = ("Password tidak boleh kosong dan kurang dari 6")
             } else {
+                pd.visibility = View.VISIBLE
                 fAuth.signInWithEmailAndPassword(emailval,passval).addOnCompleteListener {
                     task ->
                     if (task.isSuccessful) {
@@ -46,12 +51,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-
     }
-    fun moveReg() {
-        startActivity(Intent(this, UserHome::class.java))
-    }
+
     private fun toast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (fAuth.currentUser != null) {
+            pd.visibility = View.VISIBLE
             checkUser()
         }
     }
@@ -87,13 +89,14 @@ class MainActivity : AppCompatActivity() {
                                     )
                                 );finish()
                             }
-                            else -> toast("User Belum Di Daftarkan")
+                            else -> {
+                                toast("User Belum Di Daftarkan")
+                            }
                         }
                     }
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                toast("Login Gagal: Database error")
             }
         })
     }

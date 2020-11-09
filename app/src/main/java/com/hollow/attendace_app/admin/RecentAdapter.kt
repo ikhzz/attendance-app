@@ -19,7 +19,7 @@ class RecentAdapter(private val data: ArrayList<ArrayList<String>>): RecyclerVie
     private val hour: Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     private lateinit var day : String
 
-    class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {}
+    class ViewHolder(view : View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.recview, parent, false)
@@ -29,7 +29,7 @@ class RecentAdapter(private val data: ArrayList<ArrayList<String>>): RecyclerVie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val datas = data[position]
         holder.itemView.name.text = datas[1]
-        holder.itemView.name.text = datas[2]
+        holder.itemView.time.text = datas[2]
         val file = File.createTempFile("images", "bmp")
 
         day = when (hour) {
@@ -38,7 +38,7 @@ class RecentAdapter(private val data: ArrayList<ArrayList<String>>): RecyclerVie
             in 15..17 -> "Sore"
             else -> "Bukan Jam Absen"
         }
-        val ref = fStore.reference.child(dates).child(day)
+        val ref = fStore.reference.child("presence/$dates/$day/${datas[0]}")
         ref.getFile(file).addOnSuccessListener {
             val uri = Uri.parse(file.absolutePath)
             holder.itemView.prev.setImageURI(uri)

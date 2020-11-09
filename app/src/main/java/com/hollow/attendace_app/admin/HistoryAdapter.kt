@@ -9,7 +9,7 @@ import com.hollow.attendace_app.R
 import kotlinx.android.synthetic.main.recfull.view.*
 
 class HistoryAdapter(private val data: ArrayList<ArrayList<String>>) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {}
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.recfull, parent, false)

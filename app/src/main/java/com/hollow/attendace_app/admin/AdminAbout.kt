@@ -1,7 +1,6 @@
 package com.hollow.attendace_app.admin
 
 import android.content.Intent
-import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,9 +12,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.hollow.attendace_app.*
+import com.hollow.attendace_app.R
 import kotlinx.android.synthetic.main.activity_admin_about.*
-import kotlin.collections.ArrayList
 
 
 class AdminAbout : AppCompatActivity() {
@@ -76,36 +74,5 @@ class AdminAbout : AppCompatActivity() {
                 Toast.makeText(applicationContext,"Gagal Mengambil Data", Toast.LENGTH_SHORT).show()
             }
         })
-
-
-//        val calendar = Calendar.getInstance().get(Calendar.HOUR)
-//        val date2 = SimpleDateFormat("dd-MM-yyyy",Locale("english")).format(Calendar.getInstance().time)
-//        test1.text = date2.toString()
-//        test2.text = calendar.toString()
-//        btn.setOnClickListener {
-//
-//            val dates = date.text.toString().trim()
-//            val hours = hour.text.toString().trim()
-//            val users = user.text.toString().trim()
-//            val datas = data.text.toString().trim()
-//            var hType = "morning"
-//            if(hours.toInt() in 10..12) {
-//                hType = "noon"
-//            } else if (hours.toInt() in 13..16) {
-//                hType = "afternoon"
-//            }
-////            data class User(
-////                var username: String? = "",
-////                var email: String? = ""
-////            )
-////            val user = User("ikhz", "user")
-//            val uData = mapOf<String,String>(
-//                "Name" to "ikhz",
-//                "gps" to "nowhere",
-//                "time" to "whenever")
-//            val ref = fStore.getReference("presence")
-//            ref.child(dates).child(hType).child(users).setValue(uData)
-//        }
-
     }
 }

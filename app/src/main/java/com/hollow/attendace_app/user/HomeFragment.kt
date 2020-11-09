@@ -161,7 +161,6 @@ class HomeFragment: Fragment() {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                toast("Login Gagal: Database error")
             }
         })
     }

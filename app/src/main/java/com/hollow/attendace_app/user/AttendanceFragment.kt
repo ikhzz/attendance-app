@@ -74,7 +74,7 @@ class AttendanceFragment : Fragment() {
                 } else {
                     for(i in p0.locations){
                         when {
-                            i.latitude in -0.9028997..-0.9022747 && i.longitude in 119.8713618..119.8715238 -> takeImage()
+                            i.latitude in -0.9007687..-0.9002286 && i.longitude in 119.8913144..119.8916685 -> takeImage()
                             else -> toast("Tidak berada di kawasan Kantor")
                         }
                     }
@@ -156,12 +156,13 @@ class AttendanceFragment : Fragment() {
 
         ref.putFile(data)
             .addOnSuccessListener { // Get a URL to the uploaded content
-                toast("Foto Profil Telah Di Upload")
+                toast("Foto Absen Telah Di Upload")
             }
             .addOnFailureListener {
-                toast("Foto Profil Gagal Di Upload")
+                toast("Foto Absen Gagal Di Upload")
             }
     }
+
     private fun sendData() {
         val data = mapOf(
             "name" to name,
@@ -171,6 +172,7 @@ class AttendanceFragment : Fragment() {
         ref.child(dates).child(day).child(fAuth.uid.toString()).setValue(data)
         toast("absen telah diterima")
     }
+
     private fun getName() {
         val ref = fDbs.reference.child("profile").child(fAuth.uid.toString())
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -187,6 +189,7 @@ class AttendanceFragment : Fragment() {
             }
         })
     }
+
     private fun getUri(context: Context, image: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 100, bytes)

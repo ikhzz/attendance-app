@@ -22,13 +22,14 @@ class DetailHistory : AppCompatActivity() {
         val date = intent.getStringExtra("date")
         val part = intent.getStringExtra("part")
         fStore = FirebaseDatabase.getInstance()
-
+        val dates: ArrayList<String> = arrayListOf(date,part)
         val ref = fStore.getReference("presence").child(date).child(part)
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var data: ArrayList<ArrayList<String>> = arrayListOf()
                 for(i in snapshot.children) {
                     var group: ArrayList<String> = arrayListOf()
+                    group.add(i.key.toString())
                     for(j in i.children) {
                         group.add(j.value.toString())
                     }
@@ -38,7 +39,7 @@ class DetailHistory : AppCompatActivity() {
                 Toast.makeText(this@DetailHistory,data.joinToString(),Toast.LENGTH_LONG).show()
                 recDet.apply {
                     layoutManager = LinearLayoutManager(this@DetailHistory)
-                    adapter = DetailAdapter(data)
+                    adapter = DetailAdapter(data, dates)
                 }
             }
 

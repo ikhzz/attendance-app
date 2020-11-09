@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/home"
-        android:title="@string/title_home"
-        android:icon="@drawable/ic_admin_home"
+        android:title="@string/newuser"
+        android:icon="@drawable/ic_baseline_newuser"
         />
 
     <item
         android:id="@+id/dashboard"
-        android:title="@string/Presence"
-        android:icon="@drawable/ic_admin_dash"
+        android:title="@string/resetpass"
+        android:icon="@drawable/ic_baseline_newpass"
         />
 
 </menu>
