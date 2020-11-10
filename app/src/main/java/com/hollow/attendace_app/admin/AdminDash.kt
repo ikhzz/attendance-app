@@ -74,7 +74,6 @@ class AdminDash : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(applicationContext,"Database Error",Toast.LENGTH_SHORT).show()
                 }
 
             })

@@ -67,6 +67,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginBottom="20dp"
         android:text="@string/createuser"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:background="@drawable/btnone"
         app:layout_constraintBottom_toTopOf="@+id/Admin_navigation"
         app:layout_constraintStart_toStartOf="parent" />

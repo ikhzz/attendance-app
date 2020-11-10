@@ -1,6 +1,9 @@
 package com.hollow.attendace_app
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -30,25 +33,35 @@ class MainActivity : AppCompatActivity() {
         val btn = findViewById<Button>(R.id.btn)
         pd = findViewById(R.id.bar)
 
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+
+        btn.isActivated = isConnected
+
         btn.setOnClickListener {
+            if(btn.isActivated){
+                val emailval: String = email.text.toString().trim()
+                val passval: String = pass.text.toString().trim()
 
-            val emailval: String = email.text.toString().trim()
-            val passval: String = pass.text.toString().trim()
-
-            if (emailval.isEmpty()) {
-                email.error = "Email tidak boleh kosong"
-            } else if (passval.isEmpty() || passval.length < 6) {
-                pass.error = ("Password tidak boleh kosong dan kurang dari 6")
-            } else {
-                pd.visibility = View.VISIBLE
-                fAuth.signInWithEmailAndPassword(emailval,passval).addOnCompleteListener {
-                    task ->
-                    if (task.isSuccessful) {
-                        checkUser()
-                    } else {
-                        toast("Login Gagal: unSuccessful Login")
+                if (emailval.isEmpty()) {
+                    email.error = "Email tidak boleh kosong"
+                } else if (passval.isEmpty() || passval.length < 6) {
+                    pass.error = ("Password tidak boleh kosong dan kurang dari 6")
+                } else {
+                    pd.visibility = View.VISIBLE
+                    fAuth.signInWithEmailAndPassword(emailval,passval).addOnCompleteListener {
+                            task ->
+                        if (task.isSuccessful) {
+                            checkUser()
+                        } else {
+                            toast("Login Gagal")
+                            pd.visibility = View.GONE
+                        }
                     }
                 }
+            } else {
+                Toast.makeText(applicationContext, "Tidak terkoneksi jaringan", Toast.LENGTH_SHORT).show()
             }
         }
     }

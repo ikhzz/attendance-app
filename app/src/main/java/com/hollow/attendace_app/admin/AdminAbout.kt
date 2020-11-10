@@ -71,7 +71,6 @@ class AdminAbout : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(applicationContext,"Gagal Mengambil Data", Toast.LENGTH_SHORT).show()
             }
         })
     }

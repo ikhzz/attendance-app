@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.os.Process.myPid
 import android.os.Process.myUid
+import android.os.StrictMode
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.hollow.attendace_app.R
+import org.apache.commons.net.ntp.NTPUDPClient
 import java.io.ByteArrayOutputStream
+import java.net.InetAddress
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,11 +45,11 @@ class AttendanceFragment : Fragment() {
     private var fAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private var fStore: FirebaseStorage = FirebaseStorage.getInstance()
     private var fDbs: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val dates = SimpleDateFormat("dd-MM-yyyy", Locale("english")).format(Calendar.getInstance().time)
+    private lateinit var dates: String
     private lateinit var day : String
     private lateinit var name : String
-    private val hour: Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     private val min: Int = Calendar.getInstance().get(Calendar.MINUTE)
+    private lateinit var hour: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,11 +64,21 @@ class AttendanceFragment : Fragment() {
         val date: TextView? = getView()?.findViewById(R.id.datevalue)
         val presencevalue: TextView? = getView()?.findViewById(R.id.presenceValue)
         val button: Button? = getView()?.findViewById(R.id.button)
-
+        val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder()
+            .permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        val t = "ntp02.oal.ul.pt"
+        val a = NTPUDPClient()
+        a.defaultTimeout = 5000
+        val addr = InetAddress.getByName(t)
+        val inf = a.getTime(addr)
+        hour = SimpleDateFormat("HH", Locale("english")).format(inf.message.transmitTimeStamp.time)
+        dates = SimpleDateFormat("dd-MM-yyyy", Locale("english")).format(inf.message.transmitTimeStamp.date)
 
         gloc = LocationServices.getFusedLocationProviderClient(requireActivity())
         locationRequest = LocationRequest()
         locationRequest.numUpdates = 1
+        locationRequest.interval = 1
         locationRequest.priority = PRIORITY_HIGH_ACCURACY
         glocCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult?) {
@@ -81,8 +94,7 @@ class AttendanceFragment : Fragment() {
                 }
             }
         }
-
-        day = when (hour) {
+        day = when (hour.toInt()) {
             in 6..10 -> "Pagi"
             in 11..14 -> "Siang"
             in 15..17 -> "Sore"
@@ -91,8 +103,9 @@ class AttendanceFragment : Fragment() {
         getName()
         date?.text = dates
         presencevalue?.text = day
+
+
         button?.setOnClickListener {
-            if (day != "Bukan Jam Absen") {
                 if (context?.checkPermission(ACCESS_FINE_LOCATION, myPid(), myUid()) == PackageManager.PERMISSION_GRANTED) {
                     checkLoc()
                 } else {
@@ -102,9 +115,7 @@ class AttendanceFragment : Fragment() {
                         ), permissionValue
                     )
                 }
-            } else {
-                toast("Bukan Jam Absen")
-            }
+
         }
     }
 
