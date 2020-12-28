@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@drawable/ic_baseline_newuser"
+        app:showAsAction="ifRoom"
+        android:title="@string/createuser"
+        android:onClick="createUser">
+    </item>
+    <item
+        android:icon="@drawable/ic_baseline_newpass"
+        app:showAsAction="ifRoom"
+        android:title="@string/resetpass"
+        android:onClick="resetPass">
+    </item>
+    <item
+        android:icon="@drawable/ic_baseline_logout"
+        app:showAsAction="ifRoom"
+        android:title="@string/logout"
+        android:onClick="logOut">
+    </item>
+</menu>

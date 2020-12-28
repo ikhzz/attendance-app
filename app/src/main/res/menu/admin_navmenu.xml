@@ -6,17 +6,15 @@
         android:title="@string/title_home"
         android:icon="@drawable/ic_admin_home"
         />
-
-    <item
-        android:id="@+id/dashboard"
-        android:title="@string/recentlist"
-        android:icon="@drawable/ic_baseline_recent"
-        />
-
     <item
         android:id="@+id/about"
         android:title="@string/historylist"
         android:icon="@drawable/ic_admin_dash"
+        />
+    <item
+        android:id="@+id/dashboard"
+        android:title="@string/newuser"
+        android:icon="@drawable/ic_baseline_newuser"
         />
 
 </menu>

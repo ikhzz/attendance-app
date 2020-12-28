@@ -2,7 +2,8 @@ package com.hollow.attendace_app.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,44 +13,40 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.hollow.attendace_app.MainActivity
 import com.hollow.attendace_app.R
+import com.hollow.attendace_app.admin.setting.UserSetting
 import kotlinx.android.synthetic.main.activity_admin_about.*
 
 
 class AdminAbout : AppCompatActivity() {
-
-    private lateinit var fStore : FirebaseDatabase
-    private lateinit var mAuth: FirebaseAuth
+    // Prepare History Activity
+    private val fDbs: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val fAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var decor: DividerItemDecoration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_about)
-
-        val bottomNavigation : BottomNavigationView = findViewById(R.id.Admin_navigation)
-
+        // Prepare Bottom Navigation and Divider Decoration
+        bottomNavigation = findViewById(R.id.Admin_navigation)
         bottomNavigation.selectedItemId = R.id.about
-        fStore = FirebaseDatabase.getInstance()
-        mAuth = FirebaseAuth.getInstance()
-        val decor = DividerItemDecoration(this,DividerItemDecoration.VERTICAL)
+        decor = DividerItemDecoration(this,DividerItemDecoration.VERTICAL)
         decor.setDrawable(resources.getDrawable(R.drawable.divider))
-
+        // Bottom Navigation Selector for Every Activity
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.dashboard -> {
-                    startActivity(Intent(this, AdminDash::class.java)); true; finish()
-                }
-                R.id.about -> {
-                    true; finish()
-                }
-                R.id.home -> {
-                    startActivity(Intent(this, AdminHome::class.java)); true;finish()
-                }
+                R.id.dashboard -> startActivity(Intent(this, UserSetting::class.java))
+                R.id.about -> {}
+                R.id.home -> startActivity(Intent(this, AdminHome::class.java))
             }
             false
         }
-
-        val ref = fStore.getReference("presence")
+        // Query All Data
+        val ref = fDbs.getReference("presence")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
+
             override fun onDataChange(snapshot: DataSnapshot) {
                 val refs = snapshot.children
                 var listData: ArrayList<ArrayList<String>> = arrayListOf()
@@ -64,14 +61,25 @@ class AdminAbout : AppCompatActivity() {
                 }
 
                 recFull.addItemDecoration(decor)
+                //Send Data to Recycler View
                 recFull.apply {
                     layoutManager = LinearLayoutManager(this@AdminAbout)
                     adapter = HistoryAdapter(listData)
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
+    }
+    // Method for Logout Action Bar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbar_adminmenu, menu)
+        return true
+    }
+    //Method Logout
+    fun logOut(item: MenuItem) {
+        fAuth.signOut()
+        startActivity(Intent(this@AdminAbout, MainActivity::class.java))
+        finish()
     }
 }

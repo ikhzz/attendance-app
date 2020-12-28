@@ -14,6 +14,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class RecentAdapter(private val data: ArrayList<ArrayList<String>>): RecyclerView.Adapter<RecentAdapter.ViewHolder>()  {
+
     private var fStore: FirebaseStorage = FirebaseStorage.getInstance()
     private val dates = SimpleDateFormat("dd-MM-yyyy", Locale("english")).format(Calendar.getInstance().time)
     private val hour: Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
@@ -38,6 +39,7 @@ class RecentAdapter(private val data: ArrayList<ArrayList<String>>): RecyclerVie
             in 15..17 -> "Sore"
             else -> "Bukan Jam Absen"
         }
+
         val ref = fStore.reference.child("presence/$dates/$day/${datas[0]}")
         ref.getFile(file).addOnSuccessListener {
             val uri = Uri.parse(file.absolutePath)

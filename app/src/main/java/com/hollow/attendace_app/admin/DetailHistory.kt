@@ -1,8 +1,7 @@
 package com.hollow.attendace_app.admin
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -13,17 +12,16 @@ import kotlinx.android.synthetic.main.activity_detail_history.*
 
 class DetailHistory : AppCompatActivity() {
 
-    private lateinit var fStore : FirebaseDatabase
+    private val fDbs: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_history)
 
-        val date = intent.getStringExtra("date")
-        val part = intent.getStringExtra("part")
-        fStore = FirebaseDatabase.getInstance()
+        val date = (intent.getStringExtra("date")).toString()
+        val part = (intent.getStringExtra("part")).toString()
         val dates: ArrayList<String> = arrayListOf(date,part)
-        val ref = fStore.getReference("presence").child(date).child(part)
+        val ref = fDbs.getReference("presence").child(date).child(part)
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var data: ArrayList<ArrayList<String>> = arrayListOf()
@@ -35,8 +33,6 @@ class DetailHistory : AppCompatActivity() {
                     }
                     data.add(group)
                 }
-                //Toast.makeText(this@DetailHistory,snapshot.toString(),Toast.LENGTH_LONG).show()
-                Toast.makeText(this@DetailHistory,data.joinToString(),Toast.LENGTH_LONG).show()
                 recDet.apply {
                     layoutManager = LinearLayoutManager(this@DetailHistory)
                     adapter = DetailAdapter(data, dates)

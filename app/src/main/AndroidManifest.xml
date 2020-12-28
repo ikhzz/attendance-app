@@ -14,14 +14,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".admin.setting.UserSetting"/>
-        <activity android:name=".user.UserHome" />
-        <activity android:name=".admin.DetailHistory" />
-        <activity android:name=".admin.AdminAbout" />
-        <activity android:name=".admin.AdminDash" />
-        <activity android:name=".admin.AdminHome" />
-        <activity android:name=".MainActivity">
+        android:theme="@style/SecTheme">
+        <activity android:name=".admin.setting.UserSetting"
+            android:label="@string/form_register" />
+        <activity android:name=".user.UserHome"
+            android:label="@string/userpage" />
+        <activity android:name=".admin.DetailHistory"
+            android:label="@string/admin" />
+        <activity android:name=".admin.AdminAbout"
+            android:label="@string/admin" />
+        <activity
+            android:label="@string/admin"
+            android:name=".admin.AdminHome"
+            />
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

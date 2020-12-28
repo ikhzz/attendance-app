@@ -1,29 +1,32 @@
 <resources>
     <string name="app_name">Aplikasi Kehadiran</string>
+<!--    Page Title Sting-->
+    <string name="form_register">Halaman Pengaturan Pegawai</string>
+    <string name="admin">Halaman Admin</string>
+    <string name="userpage">Halaman Pegawai</string>
     <string name="title">Absensi Pegawai BKPSDMD</string>
+    <string name="form_login">Halaman Login</string>
+    <!--    Account Description String-->
     <string name="email">Email pegawai</string>
     <string name="password">Password pegawai</string>
-    <string name="name">Nama pegawai</string>
-    <string name="login">Login</string>
-    <string name="register">Daftar</string>
-    <string name="logout">Keluar</string>
-    <string name="form_login">Halaman Login</string>
-    <string name="form_register">Halaman Daftar Pegawai</string>
-    <string name="title_home">Beranda</string>
-    <string name="admin">Halaman Admin</string>
     <string name="user">Pengguna : </string>
+    <string name="name">Nama pegawai</string>
     <string name="tanggal">Tanggal :</string>
     <string name="presencePart">Bagian Absen :</string>
     <string name="profilepic">Foto Profil</string>
-    <string name="users">Pengguna</string>
-    <string name="Presence">Absen</string>
-    <string name="senddata">Kirim Absen</string>
-    <string name="createuser">Daftar User</string>
-    <string name="resetpass">Pass Baru</string>
-    <string name="sendpass">Rubah Password</string>
     <string name="arrive">Jam Absen</string>
-    <string name="recentlist">Absen Sekarang</string>
-    <string name="historylist">Semua Absen</string>
-    <string name="newuser">Buat user</string>
     <string name="datevalue">Tanggal</string>
+    <!--    Account Action String-->
+    <string name="login">Login</string>
+    <string name="register">Daftar</string>
+    <string name="logout">Keluar</string>
+    <string name="senddata">Kirim Absen</string>
+    <string name="createuser">Buat User Baru</string>
+    <string name="resetpass">Reset Pass</string>
+    <string name="sendpass">Rubah Password</string>
+    <string name="newuser">Buat user</string>
+    <!--    Page Option String-->
+    <string name="title_home">Beranda</string>
+    <string name="historylist">Semua Absen</string>
+    <string name="dataNow">Daftar absen sekarang:</string>
 </resources>
